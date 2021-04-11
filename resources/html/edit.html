@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Edit</title>
+    <link rel="stylesheet" href="../../tools/layui-v2.6.4/layui/css/layui.css">
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+    <h1>edit book</h1>
+    <div class="wrapper">
+        <form class="layui-form" action="../../controller/editBook.php" method="POST">
+            <div class="layui-form-item">
+                <label class="layui-form-label">Name</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" lay-verify="title" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Price</label>
+                <div class="layui-input-block">
+                    <input type="number" name="price" lay-verify="title" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Pages</label>
+                <div class="layui-input-block">
+                    <input type="number" name="pages" lay-verify="title" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <input type="hidden" name="id">
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="../../tools/layui-v2.6.4/layui/layui.js"></script>
+    <script src="../../tools/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function(){
+            var url = new URL(window.location.href);
+
+            var params = url.searchParams;
+            $('p').append(params.get('id'));
+            var id = params.get('id');
+            $.ajax({
+                type: 'get',
+                url: "../../controller/getBookById.php?id="+id,
+                success: function(result) {
+                    console.log(result);
+                    Object.keys(result).forEach(function (key) {
+                        $('input[name='+key+']').val(result[key]);
+                    });
+                    
+                }
+            })
+        })
+    </script>
+</body>
+</html>

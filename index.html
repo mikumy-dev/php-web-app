@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Management</title>
+    
+    <link rel="stylesheet" href="tools/layui-v2.6.4/layui/css/layui.css">
+    <link rel="stylesheet" href="resources/css/index.css">
+    
+</head>
+<body>
+    <h1>Book Management System</h1>
+    
+    <div class="wrapper">
+        <p><button type='button' class='layui-btn layui-btn-normal' onclick='edit(0)''>add book</button></p>
+        <div class="layui-form">
+            <table class="layui-table" aria-label="book-table">
+                
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Pages</th>
+                    <th scope="col">Edit</th>
+                </tr> 
+                </thead>
+                <tbody id="table-data">
+                
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="tools/layui-v2.6.4/layui/layui.js"></script>
+    <script src="tools/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function(){
+            var table = $("#table-data");
+            $.ajax({
+                type: "GET",
+                url: "controller/getAll.php",
+                success: function(result) {
+                    console.log(result);
+                    result.forEach(element => {
+                        var trEle = document.createElement("tr");
+                        var td1 = "<td>"+element.name+"</td>";
+                        var td2 = "<td>"+element.price+"</td>";
+                        var td3 = "<td>"+element.pages+"</td>";
+                        var td4 = "<td><button type='button' class='layui-btn' onclick='edit("+element.id+")''>edit</button></td>";
+                        trEle.innerHTML = td1+td2+td3+td4;
+                        table.append(trEle);
+                    });
+                }
+            })
+        })
+        function edit(id) {
+
+            window.location.href = "resources/html/edit.html?id="+id;
+        }
+    </script>
+</body>
+</html>
